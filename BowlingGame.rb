@@ -57,6 +57,7 @@ def main
       puts("You knocked down " + pins_knocked_down + " pins!")
       frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
       spare = check_if_is_spare(frame_score)
+      strike = false
     else
       puts("You've knocked down all the pins! Congrats on your strike!")
       strike = true
