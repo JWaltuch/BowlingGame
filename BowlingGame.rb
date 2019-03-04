@@ -60,11 +60,19 @@ def main
       puts("You've knocked down all the pins! Congrats on your strike!")
       strike = true
     end
+    if i == 10
+      puts("This is the final frame. You get an extra roll!")
+      ask_player_to_roll
+      #Does player get extra roll if it was a strike?
+      pins_knocked_down = game_start.roll(pins_knocked_down)
+      puts("You knocked down #{pins_knocked_down} pins!")
+      frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
+    end
     display_frame_score(frame_score)
     game_score += frame_score
     i += 1
   end
-  puts("Game over. Your final score is: " + game_score)
+  puts("Game over. Your final score is: #{game_score}")
 end
 
 def greet_player
