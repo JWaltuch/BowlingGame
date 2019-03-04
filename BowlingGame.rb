@@ -3,30 +3,26 @@ class Game
     pins_remaining = 10 - pins_knocked_down
     pins_knocked_down = rand(1..pins_remaining)
   end
-
-  def score
-    10
-  end
 end
 
-  def add_to_frame_score(pins_knocked_down, strike, spare, frame_score)
+def add_to_frame_score(pins_knocked_down, strike, spare, frame_score)
+  frame_score += pins_knocked_down
+  if strike
     frame_score += pins_knocked_down
-    if strike
-      frame_score += pins_knocked_down
-    end
-    if spare
-      frame_score += pins_knocked_down
-      spare = false
-    end
   end
+  if spare
+    frame_score += pins_knocked_down
+    spare = false
+  end
+end
 
   # def check_if_is_strike(frame_score)
   #   strike = frame_score == 10
   # end
 
-  def check_if_is_spare(frame_score)
-    spare = frame_score == 10
-  end
+def check_if_is_spare(frame_score)
+  spare = frame_score == 10
+end
 
 # Class Roll
 #   def roll
