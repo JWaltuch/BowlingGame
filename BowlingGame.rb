@@ -7,13 +7,10 @@ end
 
 def add_to_frame_score(pins_knocked_down, strike, spare, frame_score)
   frame_score += pins_knocked_down
-  if strike
+  if (spare || strike)
     frame_score += pins_knocked_down
   end
-  if spare
-    frame_score += pins_knocked_down
-    spare = false
-  end
+  frame_score
 end
 
   # def check_if_is_strike(frame_score)
@@ -21,7 +18,7 @@ end
   # end
 
 def check_if_is_spare(frame_score)
-  spare = frame_score == 10
+  spare = (frame_score == 10)
 end
 
 # Class Roll
