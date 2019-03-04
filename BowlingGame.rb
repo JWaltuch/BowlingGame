@@ -46,12 +46,13 @@ def main
     ask_player_to_roll
     pins_knocked_down = 0
     pins_knocked_down = game_start.roll(pins_knocked_down)
-    puts("You knocked down " + pins_knocked_down + " pins!")
+    puts("You knocked down #{pins_knocked_down} pins!")
     frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
+    spare = false
     if pins_knocked_down < 10
       ask_player_to_roll
       pins_knocked_down = game_start.roll(pins_knocked_down)
-      puts("You knocked down " + pins_knocked_down + " pins!")
+      puts("You knocked down #{pins_knocked_down} pins!")
       frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
       spare = check_if_is_spare(frame_score)
       strike = false
@@ -79,7 +80,7 @@ def ask_player_to_roll
 end
 
 def display_frame_score(frame_score)
-  puts("Your score for this frame is: " + frame_score)
+  puts("Your score for this frame is: #{frame_score}")
 end
 
 main
