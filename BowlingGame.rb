@@ -43,17 +43,17 @@ def main
   i = 0
   spare = false
   strike = false
-  total_score = 0
+  game_score = 0
   while i <= 10
     frame_score = 0
     ask_player_to_roll
     pins_knocked_down = 0
-    pins_knocked_down = Game.roll(pins_knocked_down)
+    pins_knocked_down = game_start.roll(pins_knocked_down)
     puts("You knocked down " + pins_knocked_down + " pins!")
     frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
     if pins_knocked_down < 10
       ask_player_to_roll
-      pins_knocked_down = Game.roll(pins_knocked_down)
+      pins_knocked_down = game_start.roll(pins_knocked_down)
       puts("You knocked down " + pins_knocked_down + " pins!")
       frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
       spare = check_if_is_spare(frame_score)
@@ -62,9 +62,10 @@ def main
       strike = true
     end
     display_frame_score(frame_score)
-    total_score += frame_score
+    game_score += frame_score
     i += 1
   end
+  puts("Game over. Your final score is: " + game_score)
 end
 
 def greet_player
@@ -76,6 +77,7 @@ def ask_player_to_roll
   roll = gets.chomp.to_s
   if roll == "Quit"
     puts("How can I let the player quit?")
+  end
 end
 
 def display_frame_score(frame_score)
