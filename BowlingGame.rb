@@ -9,25 +9,24 @@ class Game
   end
 end
 
-class Frame
-  def score(first_pins, second_pins, strike, spare)
-    score += score + first_pins + second_pins
+  def add_to_frame_score(pins_knocked_down, strike, spare, frame_score)
+    frame_score += pins_knocked_down
     if strike
-      score += first_pins + second_pins
+      frame_score += pins_knocked_down
     end
     if spare
-      score += first_pins
+      frame_score += pins_knocked_down
+      spare = false
     end
   end
 
-  def is_strike(first_pins, second_pins)
-    strike = first_pins || second_pins == 10
-  end
+  # def check_if_is_strike(frame_score)
+  #   strike = frame_score == 10
+  # end
 
-  def is_spare(first_pins, second_pins)
-    spare = first_pins + second_pins == 10
+  def check_if_is_spare(frame_score)
+    spare = frame_score == 10
   end
-end
 
 # Class Roll
 #   def roll
@@ -46,14 +45,28 @@ def main
   game_start = Game.new
   greet_player
   i = 0
+  spare = false
+  strike = false
+  total_score = 0
   while i <= 10
+    frame_score = 0
     ask_player_to_roll
     pins_knocked_down = 0
     pins_knocked_down = Game.roll(pins_knocked_down)
-    add_to_frame_score(pins_knocked_down)
-    pins_knocked_down = Game.roll(pins_knocked_down)
-    add_to_frame_score(pins_knocked_down)
-    display_frame_score
+    puts("You knocked down " + pins_knocked_down + " pins!")
+    frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
+    if pins_knocked_down < 10
+      ask_player_to_roll
+      pins_knocked_down = Game.roll(pins_knocked_down)
+      puts("You knocked down " + pins_knocked_down + " pins!")
+      frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
+      spare = check_if_is_spare(frame_score)
+    else
+      puts("You've knocked down all the pins! Congrats on your strike!")
+      strike = true
+    end
+    display_frame_score(frame_score)
+    total_score += frame_score
     i += 1
   end
 end
@@ -67,6 +80,10 @@ def ask_player_to_roll
   roll = gets.chomp.to_s
   if roll == "Quit"
     puts("How can I let the player quit?")
+end
+
+def display_frame_score(frame_score)
+  puts("Your score for this frame is: " + frame_score)
 end
 
 main
