@@ -1,7 +1,7 @@
 class Game
   def roll(pins_knocked_down)
     pins_remaining = 10 - pins_knocked_down
-    pins_knocked_down = rand(1..pins_remaining)
+    pins_knocked_down = rand(0..pins_remaining)
   end
 end
 
