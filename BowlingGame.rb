@@ -17,8 +17,8 @@ end
   #   strike = frame_score == 10
   # end
 
-def check_if_is_spare(frame_score)
-  spare = (frame_score == 10)
+def check_if_is_spare(pins_knocked_down, spare_pins)
+  spare = ((pins_knocked_down + spare_pins) == 10)
 end
 
 # Class Roll
@@ -41,6 +41,7 @@ def main
   spare = false
   strike = false
   game_score = 0
+
   while i <= 10
     frame_score = 0
     ask_player_to_roll
@@ -51,23 +52,42 @@ def main
     spare = false
     if pins_knocked_down < 10
       ask_player_to_roll
+      spare_pins = pins_knocked_down
       pins_knocked_down = game_start.roll(pins_knocked_down)
       puts("You knocked down #{pins_knocked_down} pins!")
       frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
-      spare = check_if_is_spare(frame_score)
+      spare = check_if_is_spare(pins_knocked_down, spare_pins)
       strike = false
     else
       puts("You've knocked down all the pins! Congrats on your strike!")
       strike = true
     end
-    if i == 10
-      puts("This is the final frame. You get an extra roll!")
+
+    if i == 10 && spare
+      puts("This is the final frame. Your spare earned you a bonus role.")
+      pins_knocked_down = 0
       ask_player_to_roll
-      #Does player get extra roll if it was a strike?
       pins_knocked_down = game_start.roll(pins_knocked_down)
       puts("You knocked down #{pins_knocked_down} pins!")
       frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
     end
+
+    if i == 10 && strike
+      puts("This is the final frame. Your strike earns you two bonus rolls.")
+      pins_knocked_down = 0
+      ask_player_to_roll
+      pins_knocked_down = game_start.roll(pins_knocked_down)
+      puts("You knocked down #{pins_knocked_down} pins!")
+      frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
+      if pins_knocked_down == 10
+        pins_knocked_down = 0
+      end
+      ask_player_to_roll
+      pins_knocked_down = game_start.roll(pins_knocked_down)
+      puts("You knocked down #{pins_knocked_down} pins!")
+      frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
+    end
+
     display_frame_score(frame_score)
     game_score += frame_score
     i += 1
