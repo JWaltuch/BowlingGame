@@ -9,8 +9,8 @@ class TestGame < Test::Unit::TestCase
     i = 1
     frame_score = 0
     while i <= 10
-      frame_score = add_to_frame_score(1, false, false, frame_score)
-      frame_score = add_to_frame_score(1, false, false, frame_score)
+      frame_score = add_to_frame_score(1, false, frame_score, i)
+      frame_score = add_to_frame_score(1, false, frame_score, i)
       i+=1
     end
     assert_equal 20, frame_score
@@ -18,28 +18,46 @@ class TestGame < Test::Unit::TestCase
 
 #Score for all strikes
 def test_score_for_all_strikes
-  test_game = Game.new
   i = 1
   spare = false
-  strike = false
+  strike_bonuses_in_frame = Array.new(9)
+  strike_bonus_values = Array.new(9)
+  frame_score = Array.new(9)
   game_score = 0
 
   while i <= 10
-    frame_score = 0
     pins_knocked_down = 10
-    frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
+    frame_score[i-1] = add_to_frame_score(pins_knocked_down, spare, frame_score, i)
+    strike_bonuses_in_frame.each_with_index do |item, i|
+      if item == (1 || 2)
+        strike_bonus_values[i] += pins_knocked_down
+        item -= 1
+      end
+    end
     if pins_knocked_down < 10
-      strike = false
+      strike_bonuses_in_frame[i-1] = 0
     else
-      strike = true
+      strike_bonuses_in_frame[i-1] = 2
     end
-    if i == 10 && strike
+
+    if i == 10 && pins_knocked_down == 10
       pins_knocked_down = 10
-      frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
+      frame_score[i-1] = add_to_frame_score(pins_knocked_down, spare, frame_score, i)
+      strike_bonuses_in_frame.each_with_index do |item, i|
+        if item == (1 || 2)
+          strike_bonus_values[i] += pins_knocked_down
+          item -= 1
+        end
+      end
       pins_knocked_down = 10
-      frame_score = add_to_frame_score(pins_knocked_down, spare, strike, frame_score)
+      frame_score[i-1] = add_to_frame_score(pins_knocked_down, spare, frame_score, i)
     end
-    game_score += frame_score
+
+    if i >= 3
+      add_strike_bonuses(strike_bonus_values, strike_bonuses_in_frame, frame_score)
+    end
+
+    game_score += frame_score[i-1]
     i += 1
   end
   assert_equal game_score, 300
