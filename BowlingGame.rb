@@ -37,7 +37,7 @@ end
 def main
   game_start = Game.new
   greet_player
-  i = 0
+  i = 1
   spare = false
   strike = false
   game_score = 0
