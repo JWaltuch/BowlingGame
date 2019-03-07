@@ -42,7 +42,7 @@ def main
   strike_bonuses_in_frame = Array.new(9)
   strike_bonus_values = Array.new(9)
   frame_score = Array.new(9)
-  # frame_score.fill(0)
+  frame_score.fill(0)
   game_score = 0
 
   while i <= 10
@@ -50,6 +50,7 @@ def main
     pins_knocked_down = 0
     pins_knocked_down = game_start.roll(pins_knocked_down)
     puts("You knocked down #{pins_knocked_down} pin(s)!")
+    puts(i)
     frame_score[i-1] = add_to_frame_score(pins_knocked_down, spare, frame_score, i)
     strike_bonuses_in_frame.each_with_index do |item, i|
       if item == (1 || 2)
