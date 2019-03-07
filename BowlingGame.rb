@@ -110,5 +110,3 @@ end
 def display_frame_score(frame_score)
   puts("Your score for this frame is: #{frame_score}")
 end
-
-main
