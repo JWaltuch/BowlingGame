@@ -3,6 +3,14 @@ require_relative "BowlingGame.rb"
 
 class TestGame < Test::Unit::TestCase
 
+#test add to frame Score
+def test_add_to_frame_score
+  frame_score = Array.new(9)
+  frame_score.fill(0)
+  add_to_frame_score(1, false, frame_score, 1)
+  assert_equal frame_score[0], 1
+end
+
 #Score with no strikes or spares just adds all frames with no bonuses
   def test_score_with_no_strikes_or_spares
     test_game = Game.new
@@ -23,6 +31,7 @@ def test_score_for_all_strikes
   strike_bonuses_in_frame = Array.new(9)
   strike_bonus_values = Array.new(9)
   frame_score = Array.new(9)
+  frame_score.fill(0)
   game_score = 0
 
   while i <= 10
@@ -57,9 +66,13 @@ def test_score_for_all_strikes
       add_strike_bonuses(strike_bonus_values, strike_bonuses_in_frame, frame_score)
     end
 
-    game_score += frame_score[i-1]
     i += 1
   end
+
+  frame_score.each do |item|
+    game_score += item
+  end
+
   assert_equal game_score, 300
 end
 

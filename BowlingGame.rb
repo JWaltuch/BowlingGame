@@ -50,7 +50,6 @@ def main
     pins_knocked_down = 0
     pins_knocked_down = game_start.roll(pins_knocked_down)
     puts("You knocked down #{pins_knocked_down} pin(s)!")
-    puts(i)
     frame_score[i-1] = add_to_frame_score(pins_knocked_down, spare, frame_score, i)
     strike_bonuses_in_frame.each_with_index do |item, i|
       if item == (1 || 2)
@@ -114,9 +113,15 @@ def main
     end
 
     display_frame_score(frame_score)
-    game_score += frame_score[i-1]
+    puts(frame_score[i-1])
+
     i += 1
   end
+
+  frame_score.each do |item|
+    game_score += item
+  end
+
   puts("Game over. Your final score is: #{game_score}")
 end
 
